@@ -1,0 +1,13 @@
+{
+  "name": "spirits",
+  "version": "0.0.0",
+  "description": "Finely tuned phantomjs scraping utilities as a means to sanely use phantomjs in an already complex enough stack.",
+  "main": "./index.js",
+  "scripts": {
+     "preinstall":"which phantomjs"
+    ,"test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD"
+}
