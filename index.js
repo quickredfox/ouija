@@ -16,9 +16,9 @@ var Path         = require( 'path')
         , finalize = function () {
           if( finalize.called ) return false;
           child.kill();// kill fast!
-          error = error.length ? new Error( error.join("\n")||'Unknown' ) : null;
-          data  = data.length ? data : null;
-          if( typeof callback === "function") callback(error, data);
+          errorvalue = error.length ? new Error( error.join("\n")||'Unknown' ) : null;
+          datavalue  = data.length ? data : null;
+          if( typeof callback === "function") callback(errorvalue, datavalue);
           return finalize.called = true;
         };
         stdout.on( 'data', function ( buffer ) {
