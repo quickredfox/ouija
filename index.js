@@ -5,7 +5,7 @@ var Path         = require( 'path')
   , TOKEN        = /^SPIRITSDATA\:/ 
   , children     = []
   , buffer       = []
-  , invoke = function ( url, spirits, calback ) {
+  , invoke = function ( url, spirits, callback ) {
       var data     = []
         , error    = []
         , args     = [ Path.normalize( __dirname + "/invoke.coffee"), url ].concat( spirits )
@@ -16,8 +16,8 @@ var Path         = require( 'path')
         , finalize = function () {
           if( finalize.called ) return false;
           child.kill();// kill fast!
-          errorvalue = error.length ? new Error( error.join("\n")||'Unknown' ) : null;
-          datavalue  = data.length ? data : null;
+          var errorvalue = error.length ? new Error( error.join("\n")||'Unknown' ) : null;
+          var datavalue  = data.length ? data : null;
           if( typeof callback === "function") callback(errorvalue, datavalue);
           return finalize.called = true;
         };
