@@ -1,5 +1,5 @@
 {
-  "name": "spirits",
+  "name": "ouija",
   "version": "0.0.0",
   "description": "Finely tuned phantomjs scraping utilities as a means to sanely use phantomjs in an already complex enough stack.",
   "main": "./index.js",
