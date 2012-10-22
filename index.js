@@ -27,7 +27,7 @@ var Path         = require( 'path')
         });
         stderr.on( 'data', function ( buffer ) {
           chunk = String( buffer )
-          error.push chunk 
+          error.push( chunk );
         });
         // Make certain the children die with their parent!
         // AND ignore all whining!
