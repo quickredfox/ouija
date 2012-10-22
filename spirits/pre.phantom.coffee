@@ -4,5 +4,5 @@ exports.invoke = ( page, next )->
     unwanted = document.querySelectorAll 'script, style, link, iframe, embed, object'
     for node in unwanted
       parent = node.parentNode
-    if parent then parent.removeChild node
+      if parent then parent.removeChild node
   next()
