@@ -29,7 +29,7 @@ var Path         = require( 'path')
         });
         stderr.on( 'data', function ( buffer ) {
           chunk = String( buffer )
-          error.push( chunk );
+          error = chunk;
         });
         child.on( 'exit', finalize );
         children.push(child);
