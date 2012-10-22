@@ -24,7 +24,8 @@ var Path         = require( 'path')
         stdout.on( 'data', function ( buffer ) {
           var chunk = String( buffer );
           if( TOKEN.test( chunk ) ) data.push( chunk.replace( TOKEN, '') );
-          if( data && data.length === expected ) return finalize(); 
+          else{ error.push( chunk );}
+          if( (error.length > 0) || (data && data.length === expected)  ) return finalize();
         });
         stderr.on( 'data', function ( buffer ) {
           chunk = String( buffer )
