@@ -1,4 +1,4 @@
-var EventEmitter = require( 'events' ).EventEmitter
+var Path         = require( 'path')
   , MAX_CHILDREN = 10
   , BUFFER_SIZE  = 20
   , TOKEN        = /^SPIRITSDATA\:/
@@ -7,7 +7,7 @@ var EventEmitter = require( 'events' ).EventEmitter
   , invoke = function ( url, spirits, calback ) {
       var data     = []
         , error    = []
-        , args     = [ __dirname + "/invoke.coffee", url ].concat( spirits )
+        , args     = [ Path.normalize( __dirname + "/invoke.coffee"), url ].concat( spirits )
         , child    = spawn('phantomjs', args )
         , stdout   = child.stdout
         , stderr   = child.stderr
