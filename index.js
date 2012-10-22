@@ -1,7 +1,8 @@
 var Path         = require( 'path')
-  , MAX_CHILDREN = 10
+  , spawn        = require( 'child_process' ).spawn
+  , MAX_CHILDREN = 100
   , BUFFER_SIZE  = 20
-  , TOKEN        = /^SPIRITSDATA\:/
+  , TOKEN        = /^SPIRITSDATA\:/ 
   , children     = []
   , buffer       = []
   , invoke = function ( url, spirits, calback ) {
@@ -23,21 +24,13 @@ var Path         = require( 'path')
         stdout.on( 'data', function ( buffer ) {
           var chunk = String( buffer );
           if( TOKEN.test( chunk ) ) data.push( chunk.replace( TOKEN, '') );
-          if( data.length === expected ) return finalize(); 
+          if( data && data.length === expected ) return finalize(); 
         });
         stderr.on( 'data', function ( buffer ) {
           chunk = String( buffer )
           error.push( chunk );
         });
-        // Make certain the children die with their parent!
-        // AND ignore all whining!
-        process.on('exit', function () {
-          try{ return child.kill();
-          }catch ( FailSilently ){
-            // system *should* also be killing child processes, not a big issue here. 
-          } 
-        });
-        child.on( exit, finalize );
+        child.on( 'exit', finalize );
         children.push(child);
         return child;
     };
@@ -55,3 +48,13 @@ module.exports.setMaxChildren = function ( n ) {
 module.exports.setBufferSize = function ( n ) {
   BUFFER_SIZE  = n;
 };
+// Make certain the children die with their parent!
+// AND ignore all whining!
+process.on('exit', function () {
+  children.map(function () {
+    try{ return child.kill();
+    }catch ( FailSilently ){
+      // system *should* also be killing child processes, not a big issue here. 
+    }     
+  }); 
+});
