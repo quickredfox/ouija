@@ -30,8 +30,9 @@ page.open url, ( status )->
     if !spirit then return done()
     try
       script = spiritscripts[ spirit ]
-      script.invoke page, ( error )->
+      script.invoke page, ( error, data )->
         if error then return fail error 
+        else if data then console.log( data )
         invokeSpirits index+1
     catch error then return fail error
   return setTimeout invokeSpirits, 200

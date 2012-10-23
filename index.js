@@ -2,7 +2,6 @@ var Path         = require( 'path')
   , spawn        = require( 'child_process' ).spawn
   , MAX_CHILDREN = 100
   , BUFFER_SIZE  = 20
-  , TOKEN        = /^SPIRITSDATA\:/ 
   , children     = []
   , buffer       = []
   , invoke = function ( url, spirits, callback ) {
@@ -17,15 +16,14 @@ var Path         = require( 'path')
           if( finalize.called ) return false;
           child.kill();// kill fast!
           var errorvalue = error.length ? new Error( error.join("\n")||'Unknown' ) : null;
-          var datavalue  = data.length ? data : null;
+          var datavalue  = data.length ? data.join("") : null;
           if( typeof callback === "function") callback(errorvalue, datavalue);
           return finalize.called = true;
         };
         stdout.on( 'data', function ( buffer ) {
+          if( error.length > 0) return finalize();
           var chunk = String( buffer );
-          if( TOKEN.test( chunk ) ) data.push( chunk.replace( TOKEN, '') );
-          // else{ error.push( chunk )}
-          if( (error.length > 0) || (data && data.length === expected)  ) return finalize();
+          data.push( chunk );
         });
         stderr.on( 'data', function ( buffer ) {
           chunk = String( buffer )
